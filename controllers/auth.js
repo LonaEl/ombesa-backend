@@ -27,7 +27,7 @@ export const login = async (req, res, next) => {
       return next(new ErrorResponse("Incorrect password or email address", 401));
     }
     
-    const token = jwt.sign( { email: oldUser.email, id: oldUser._id }, 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiT3duZXIiLCJJc3N1ZXIiOiJOb2lzc3VlIiwiVXNlcm5hbWUiOiJOb3VzZSIsImV4cCI6MjM5NjQ0MzM2NCwiaWF0IjoxNjcxODA2NTY0fQ.i89nIYQz0qxR6QxTPQLmeRtHTJ1vDVhSvWlAkNBlSto', { expiresIn: '10min' } );
+    const token = jwt.sign( { email: oldUser.email, id: oldUser._id }, process.env.JWT_SECRET, { expiresIn: '10min' } );
 
       res.status(201).json({result: oldUser, token});
     
@@ -57,7 +57,7 @@ export const register = async (req, res, next) => {
 
     const result = await User.create({ username, email, password: hashedPassword, firstname, lastname });
 
-    const token = jwt.sign( { email: result.email, id: result._id }, 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiT3duZXIiLCJJc3N1ZXIiOiJOb2lzc3VlIiwiVXNlcm5hbWUiOiJOb3VzZSIsImV4cCI6MjM5NjQ0MzM2NCwiaWF0IjoxNjcxODA2NTY0fQ.i89nIYQz0qxR6QxTPQLmeRtHTJ1vDVhSvWlAkNBlSto' , { expiresIn: '10min' });
+    const token = jwt.sign( { email: result.email, id: result._id },process.env.JWT_SECRET , { expiresIn: '10min' });
     res.status(201).json({result, token});
     
   
@@ -109,7 +109,7 @@ export const forgotPassword = async (req, res, next) => {
 
       user.resetPasswordToken = undefined;
       user.resetPasswordExpire = undefined;
-
+       
       await user.save();
 
       return next(new ErrorResponse("Email could not be sent", 500));
@@ -156,7 +156,7 @@ export const resetPassword = async (req, res, next) => {
     res.status(201).json({
       success: true,
       data: "Password Updated Success",
-      token : jwt.sign({ user }  , 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiT3duZXIiLCJJc3N1ZXIiOiJOb2lzc3VlIiwiVXNlcm5hbWUiOiJOb3VzZSIsImV4cCI6MjM5NjQ0MzM2NCwiaWF0IjoxNjcxODA2NTY0fQ.i89nIYQz0qxR6QxTPQLmeRtHTJ1vDVhSvWlAkNBlSto' , { expiresIn: '10min' }),
+      token : jwt.sign({ user }  ,process.env.JWT_SECRET , { expiresIn: '10min' }),
     });
   } catch (err) {
     next(err);
