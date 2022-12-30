@@ -5,6 +5,11 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import path from 'path';
 
+
+import pkg from 'res';
+const { sendFile } = pkg;
+
+
 dotenv.config(); 
  
 
@@ -30,13 +35,14 @@ app.use(authRoute)
 
 
 
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'client', 'public', 'index.html'), function(err) {
+export default function(req, res) {
+  sendFile(path.join(__dirname, 'client', 'public', 'index.html'), function(err) {
     if (err) {
       res.status(500).send(err)
     }
   })
-});
+}
+
 /* app.get('/*', function(req, res) { res.sendFile('index.html');}); */
 /* app.get("/", (req, res, next) => {
   res.send("Api running");
