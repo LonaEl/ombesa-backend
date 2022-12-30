@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors'; 
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import path from 'path';
 
 dotenv.config(); 
  
@@ -22,14 +23,21 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-/* app.get('/*', function(req, res) { res.sendFile('index.html');}); */
+
 
 app.use('/posts', postRoutes); 
 app.use(authRoute)
 
 
 
-app.get('/*', function(req, res) { res.sendFile('index.html');});
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'path/to/your/index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+});
+/* app.get('/*', function(req, res) { res.sendFile('index.html');}); */
 /* app.get("/", (req, res, next) => {
   res.send("Api running");
 });
