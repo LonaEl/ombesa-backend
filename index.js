@@ -1,28 +1,25 @@
 import express from 'express';
-const app = express(); 
+import bodyParser from 'body-parser';
 import cors from 'cors'; 
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+
 dotenv.config(); 
  
 
 import errorHandler from "./middleware/error.js"; 
 import postRoutes from './routes/posts.js';
-/* import claimRouter from "./routes/claim.js"; */
 import authRoute from "./routes/auth.js";
+
+  const app = express();
 
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors({
-  origin: '*'
-}));
+app.use(cors());
  
  
-//first parameter is the starting path in the backend e.g localhost:5000/posts
-//Connecting 
+
 app.use('/posts', postRoutes); 
-/* app.use("/claim", claimRouter); */
-/* app.use("/auth", authRoute); */
 app.use(authRoute)
 
 
