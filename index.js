@@ -22,7 +22,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.get('/*', function(req, res) { res.sendFile('index.html');});
+/* app.get('/*', function(req, res) { res.sendFile('index.html');}); */
 
 app.use('/posts', postRoutes); 
 app.use(authRoute)
