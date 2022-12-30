@@ -13,7 +13,7 @@ import authRoute from "./routes/auth.js";
 
   const app = express();
 
-  app.get('/*', function(req, res) { res.sendFile('index.html');});
+  
 
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
@@ -25,7 +25,7 @@ app.use('/posts', postRoutes);
 app.use(authRoute)
 
 
-
+app.get('/*', function(req, res) { res.sendFile('index.html');});
 app.get("/", (req, res, next) => {
   res.send("Api running");
 });
