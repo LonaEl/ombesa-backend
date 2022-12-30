@@ -13,19 +13,23 @@ import authRoute from "./routes/auth.js";
 
   const app = express();
 
-  
+
 
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors());
- 
- 
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.get('/*', function(req, res) { res.sendFile('index.html');});
 
 app.use('/posts', postRoutes); 
 app.use(authRoute)
 
 
-app.get('/*', function(req, res) { res.sendFile('index.html');});
+
+
 app.get("/", (req, res, next) => {
   res.send("Api running");
 });
