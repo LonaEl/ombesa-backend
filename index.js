@@ -29,10 +29,11 @@ app.use(authRoute)
 
 
 
-
-app.get("/", (req, res, next) => {
+app.get('/*', function(req, res) { res.sendFile('index.html');});
+/* app.get("/", (req, res, next) => {
   res.send("Api running");
 });
+ */
 
 
 
