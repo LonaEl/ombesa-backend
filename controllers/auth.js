@@ -86,7 +86,7 @@ export const forgotPassword = async (req, res, next) => {
     await user.save();
 
     // Create reset url to email to provided email
-    const resetUrl = `https://mhatu.onrender.com/passwordreset/${resetToken}`;
+    const resetUrl = `https://mhatu.onrender.com/#/passwordreset/${resetToken}`;
 
     const message = `
       <h1>You have requested a password reset</h1>
