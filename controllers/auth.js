@@ -109,7 +109,7 @@ export const forgotPassword = async (req, res, next) => {
 
       user.resetPasswordToken = undefined;
       user.resetPasswordExpire = undefined;
-       
+
       await user.save();
 
       return next(new ErrorResponse("Email could not be sent", 500));
