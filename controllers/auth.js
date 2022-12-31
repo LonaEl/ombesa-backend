@@ -77,7 +77,7 @@ export const forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return next(new ErrorResponse("Email address not found. Please try another email address or register.", 404));
+      return next(new ErrorResponse("Email address not found.", 404));
     }
 
     // Reset Token Gen and add to database hashed version of token
