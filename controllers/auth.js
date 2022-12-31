@@ -27,7 +27,7 @@ export const login = async (req, res, next) => {
       return next(new ErrorResponse("Incorrect password or email address", 401));
     }
     
-    const token = jwt.sign( { email: oldUser.email, id: oldUser._id }, process.env.JWT_SECRET, { expiresIn: '10min' } );
+    const token = jwt.sign( { email: oldUser.email, id: oldUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE } );
 
       res.status(201).json({result: oldUser, token});
     
@@ -57,7 +57,7 @@ export const register = async (req, res, next) => {
 
     const result = await User.create({ username, email, password: hashedPassword, firstname, lastname });
 
-    const token = jwt.sign( { email: result.email, id: result._id }, process.env.JWT_SECRET , { expiresIn: '10min' });
+    const token = jwt.sign( { email: result.email, id: result._id }, process.env.JWT_SECRET , { expiresIn: process.env.JWT_EXPIRE });
     res.status(201).json({result, token});
     
   
@@ -156,7 +156,7 @@ export const resetPassword = async (req, res, next) => {
     res.status(201).json({
       success: true,
       data: "Password Updated Success",
-      token : jwt.sign({ user }  ,process.env.JWT_SECRET , { expiresIn: '10min' }),
+      token : jwt.sign({ user }  ,process.env.JWT_SECRET , { expiresIn: process.env.JWT_EXPIRE }),
     });
   } catch (err) {
     next(err);
